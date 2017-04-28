@@ -1,0 +1,3 @@
+project(':assets').projectDir = new File(settingsDir, '../OpenHex')
+include ':OpenHex'
+project(':OpenHex').projectDir = new File(settingsDir, '../OpenHex')
