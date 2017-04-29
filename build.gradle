@@ -3,7 +3,7 @@ apply plugin: 'application'
 apply plugin: 'eclipse'
 apply plugin: 'idea'
 
-mainClassName='openhexagonos2.run.Main'
+mainClassName='openhexagonos.run.Main'
 
 repositories {
     jcenter()
@@ -28,6 +28,14 @@ dependencies {
 
 task wrapper(type: Wrapper) {
     gradleVersion = '2.0'
+}
+
+sourceSets {
+	main {
+		java {
+			srcDirs = ['src/main/java', 'src/run/java']
+		}
+	}
 }
 
 jar {
