@@ -26,7 +26,7 @@ public class HexPlayer implements Owner {
  
 	private Faction faction;
 	private String name;
-    boolean human = true;
+    protected boolean human = true;
     private int points = 0;
     private HashSet<Ownable> property = new HashSet<Ownable>();
 
