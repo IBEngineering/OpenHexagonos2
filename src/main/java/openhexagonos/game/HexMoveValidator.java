@@ -136,8 +136,6 @@ public class HexMoveValidator {
         return moves;
     }
 
-    
-    
     public static HexMove getBestMove(ArrayList<HexMove> moves, Board board)
     {
         int bestMoveVal = -1;
