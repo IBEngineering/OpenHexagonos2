@@ -185,68 +185,62 @@ public class HexMoveValidator {
     
     
     
-//    public static void executeMove(HexMove move, HexBoard board, HexPlayer currPlayer)
-//    {
-//        ConcurrentHashMap<HexCoordinate,HexTile> bord = board.getBoard();
-//        ArrayList<HexChange> changedTiles = new ArrayList<>();
-//        
-//        if(move == null) { return; }
-//        if(move.getFrom() == null) { return; }
-//        if(move.getTo() == null) { return; }
-//        
-//        //Determine if we do a move or clone
-//        if (move.getFrom().distance(move.getTo()) < 2)
-//        {
-//            //Clone
-//            HexTile src = bord.get(move.getFrom());
-//            HexTile dst = bord.get(move.getTo());
-//            dst.setOwner(move.getPlayer());
-//            
-//            //increment points by 1
-//            //move.getPlayer().incrementPoints();
-//            
-//            HexChange change = new HexChange(src, dst, HexChange.Type.DUPLICATION);
-//            changedTiles.add(change);
-//            
-//        }
-//        else
-//        {
-//            //Jump
-//            HexTile src = bord.get(move.getFrom());
-//            HexTile dst = bord.get(move.getTo());
-//            dst.setOwner(move.getPlayer());
-//            
-//            src.setOwner(null);
-//            
-//            HexChange change = new HexChange(src, dst, HexChange.Type.JUMP);
-//            changedTiles.add(change);
-//
-//        }
-//        
-//        //Defeat Neigbors
-//        for (int i = 0; i < 6; i++)
-//        {
-//            HexCoordinate neigh = move.getTo().getNeighbor(i);
-//            HexTile neighTile = bord.get(neigh);
-//            
-//            // If an existing tile
-//            // and If not an empty tile
-//            // and if not our tile
-//            if (neighTile != null &&
-//                    neighTile.getOwner() != null && 
-//                    neighTile.getOwner() != move.getPlayer() )
-//            {
-//                //neighTile.getOwner().decrementPoints();
-//                //move.getPlayer().incrementPoints();
-//                
-//                neighTile.setOwner(currPlayer);
-//                
-//                HexTile dst = bord.get(move.getTo());
-//                HexChange change = new HexChange(dst, neighTile, HexChange.Type.CONQUEST);
-//                changedTiles.add(change);
-//                
-//            }
-//        }
-//    }
+    public static void executeMove(HexMove move, Board board, HexPlayer currPlayer)
+    {
+        
+        if(move == null) { return; }
+        if(move.getFrom() == null) { return; }
+        if(move.getTo() == null) { return; }
+        
+        //Determine if we do a move or clone
+        if (move.getFrom().distance(move.getTo()) < 2)
+        {
+            //Clone
+            HexTile src = board.getTile(move.getFrom());
+            HexTile dst = board.getTile(move.getTo());
+            dst.setOwner(move.getPlayer());
+            
+            //increment points by 1
+            //move.getPlayer().incrementPoints();
+            
+            board.addTile(dst);
+            
+        }
+        else
+        {
+            //Jump
+            HexTile src = board.getTile(move.getFrom());
+            HexTile dst = board.getTile(move.getTo());
+            dst.setOwner(move.getPlayer());
+            
+            src.setOwner(null);
+            
+            board.addTile(src);
+            board.addTile(dst);
+
+
+        }
+        
+        //Defeat Neigbors
+        for (int i = 0; i < 6; i++)
+        {
+            HexTile neighTile = board.getTile((VectorAS) move.getTo().add(Vectors.directionsAS[i])); 
+            
+            // If an existing tile
+            // and If not an empty tile
+            // and if not our tile
+            if (neighTile != null &&
+                    neighTile.getOwner() != null && 
+                    neighTile.getOwner() != move.getPlayer() )
+            {
+                //neighTile.getOwner().decrementPoints();
+                //move.getPlayer().incrementPoints();
+                
+                neighTile.setOwner(currPlayer);
+                board.addTile(neighTile);
+                
+            }
+        }
+    }
     
 }

@@ -22,6 +22,7 @@ public class HexagonosGame {
 	
 	private static final Logger LOG = LoggerFactory.getLogger(HexagonosGame.class);
 
+	public static final int BOARDSIZE = 4;
 	
 	public HexagonosGame () {
 		
@@ -49,7 +50,7 @@ public class HexagonosGame {
 				);
 		
 		LOG.trace("Create game board...");
-		generateGameBoard(g,4);
+		generateGameBoard(g,BOARDSIZE);
 	
 	  
 		LOG.trace("Creating Application...");
