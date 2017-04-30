@@ -12,6 +12,7 @@ public class HexMatch {
 	
 	private HexPlayer[] players = new HexPlayer[2];
 	private Game g;
+	private int currentPlayer = 1;
 	
 	public HexMatch(Game g, HexPlayer a, HexPlayer b) throws Exception{
 		this.g= g;
@@ -80,9 +81,28 @@ public class HexMatch {
 		
 		while (it.hasNext()) {
 			it.next().setOwner(null);
+		}		
+	}
+	
+	public void nextPlayer() throws EndGameException {
+		
+		HexPlayer opponent = players[currentPlayer];
+		currentPlayer++;
+		if (currentPlayer > 1) { currentPlayer = 0; }
+		
+		if (HexMoveValidator.getPossibleMoves( players[currentPlayer], g.getBoard()).isEmpty()) {
+			if ( players[currentPlayer].getPoints() > opponent.getPoints()) {
+				throw new EndGameException(players[currentPlayer], opponent);
+			} else if  ( players[currentPlayer].getPoints() < opponent.getPoints()){
+				throw new EndGameException(opponent, players[currentPlayer]);
+			} else {
+				//draw
+				throw new EndGameException(null, null);
+			}
 		}
 		
-		
+		HexMove move = players[currentPlayer].getNextHexMove(g.getBoard(), opponent);
+		HexMoveValidator.executeMove(move, g.getBoard(), players[currentPlayer]);
 	}
 	
 
